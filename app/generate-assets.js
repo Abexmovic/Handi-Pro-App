@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
-const appDir = 'C:\\Users\\HP\\Desktop\\Handi-Pro\\app';
+// Resolve directories dynamically relative to this script's location (app folder)
+const appDir = __dirname;
 const iconSrc = path.join(appDir, 'resources', 'icon.jpeg');
 
 console.log('Generating Android icon and splash screen resources from icon.jpeg...');
@@ -57,7 +57,6 @@ for (const dir of drawableDirs) {
 const iosAppIconDir = path.join(appDir, 'ios', 'App', 'App', 'Assets.xcassets', 'AppIcon.appiconset');
 if (fs.existsSync(iosAppIconDir)) {
   fs.writeFileSync(path.join(iosAppIconDir, 'AppIcon-512@2x.png'), iconData);
-  // Copy for any other images in appiconset
   for (const f of fs.readdirSync(iosAppIconDir)) {
     if (f.endsWith('.png')) {
       fs.writeFileSync(path.join(iosAppIconDir, f), iconData);

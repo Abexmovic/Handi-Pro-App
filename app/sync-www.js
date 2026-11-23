@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const srcDir = 'C:\\Users\\HP\\Desktop\\Handi-Pro';
-const destWww = 'C:\\Users\\HP\\Desktop\\Handi-Pro\\app\\www';
+// Resolve directories dynamically relative to this script's location (app folder)
+const appDir = __dirname;
+const srcDir = path.resolve(appDir, '..');
+const destWww = path.resolve(appDir, 'www');
 
 // Copy CSS
 let css = fs.readFileSync(path.join(srcDir, 'style.css'), 'utf8');
