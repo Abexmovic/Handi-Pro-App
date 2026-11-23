@@ -86,7 +86,12 @@ async function loadVerifiedProviders() {
     console.warn("Supabase check notice:", err.message);
   }
 
-  // Merge newly verified artisans into allRegisteredArtisans
+  // Find David Tech Solutions / first provider's image to standardize across providers
+  const davidImg =
+    DEFAULT_REGISTERED_ARTISANS[0].image_url ||
+    "./Images/ChatGPT Image Aug 9, 2026, 08_42_31 AM.png";
+
+  // Merge newly verified artisans into allRegisteredArtisans and apply the standardized image
   if (dbVerified && dbVerified.length > 0) {
     dbVerified.forEach((pro) => {
       const exists = allRegisteredArtisans.some(
@@ -100,11 +105,25 @@ async function loadVerifiedProviders() {
       if (!exists) {
         allRegisteredArtisans.push({
           ...pro,
+          image_url: davidImg,
           is_verified: true,
         });
+      } else {
+        // Standardize image for existing entry as well
+        const match = allRegisteredArtisans.find(
+          (a) =>
+            a.full_name?.toLowerCase().trim() ===
+            pro.full_name?.toLowerCase().trim()
+        );
+        if (match) match.image_url = davidImg;
       }
     });
   }
+
+  // Ensure all artisans use the exact same image as David Tech Solutions
+  allRegisteredArtisans.forEach((artisan) => {
+    artisan.image_url = davidImg;
+  });
 
   // Only render full list if user is not currently in an active search
   const serviceInput = document.getElementById("searchInput");
