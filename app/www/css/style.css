@@ -766,7 +766,7 @@ a {
 
 .video-slider-wrapper {
   position: relative;
-  max-width: 440px;
+  max-width: 320px;
   margin: 0 auto;
   padding: 0 10px;
 }
@@ -775,9 +775,9 @@ a {
   position: relative;
   width: 100%;
   aspect-ratio: 9 / 16;
-  max-height: 580px;
+  max-height: 440px;
   background-color: #0f172a;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
   touch-action: pan-y pinch-zoom;
