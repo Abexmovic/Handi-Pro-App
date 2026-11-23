@@ -14,13 +14,22 @@ fs.writeFileSync(path.join(destWww, 'css', 'style.css'), css);
 let js = fs.readFileSync(path.join(srcDir, 'script.js'), 'utf8');
 fs.writeFileSync(path.join(destWww, 'js', 'script.js'), js);
 
-// Copy images
+// Copy Images
 const srcImg = path.join(srcDir, 'Images');
 const destImg = path.join(destWww, 'Images');
 if (!fs.existsSync(destImg)) fs.mkdirSync(destImg, { recursive: true });
 
 for (const file of fs.readdirSync(srcImg)) {
   fs.copyFileSync(path.join(srcImg, file), path.join(destImg, file));
+}
+
+// Copy Videos
+const srcVideos = path.join(srcDir, 'videos');
+const destVideos = path.join(destWww, 'videos');
+if (!fs.existsSync(destVideos)) fs.mkdirSync(destVideos, { recursive: true });
+
+for (const file of fs.readdirSync(srcVideos)) {
+  fs.copyFileSync(path.join(srcVideos, file), path.join(destVideos, file));
 }
 
 // Adapt index.html for app/www

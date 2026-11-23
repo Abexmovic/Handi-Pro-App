@@ -15,7 +15,9 @@
         <div class="container nav-container">
             <a href="./index.html" class="logo"><i class="fa-solid fa-screwdriver-wrench"></i> HandyPro</a>
             <nav class="nav-links" id="navLinks">
+                <a href="#how-it-works">How It Works</a>
                 <a href="#categories">Categories</a>
+                <a href="#pros-in-action">Pros in Action</a>
                 <a href="#providers">Featured Experts</a>
                 <a href="./register.html" class="btn btn-secondary">Register as a Pro</a>
             </nav>
@@ -28,8 +30,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container hero-content">
-            <h1>Find Trusted Experts for Any Household Job</h1>
-            <p>Connect Instantly With A Verified Artisans In Your Area.</p>
+            <h1>Find Trusted Artisans Near You</h1>
+            <p>Connect instantly with verified pros in your area. Tap to call or chat on WhatsApp. No sign-up needed to browse.</p>
             
             <!-- Search & Filter Bar -->
             <div class="search-box">
@@ -42,6 +44,52 @@
                     <input type="text" id="locationInput" placeholder="Location or City">
                 </div>
                 <button class="btn btn-primary" onclick="filterServices()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Strip (3 Simple Steps) -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="how-grid">
+                <div class="how-item">
+                    <div class="how-icon-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="how-text">
+                        <h4>1. Search</h4>
+                        <p>Type the service you need or pick a category.</p>
+                    </div>
+                </div>
+
+                <div class="how-item">
+                    <div class="how-icon-box">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <div class="how-text">
+                        <h4>2. Compare</h4>
+                        <p>See verified pros near you, with photos of their work.</p>
+                    </div>
+                </div>
+
+                <div class="how-item">
+                    <div class="how-icon-box">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div class="how-text">
+                        <h4>3. Contact</h4>
+                        <p>Call them or message them on WhatsApp directly.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clear secondary path for artisans -->
+            <div class="artisan-cta-banner">
+                <div class="cta-info">
+                    <h3>Are you a skilled technician or artisan?</h3>
+                    <p>Get listed in our directory and start receiving customer calls in your area.</p>
+                </div>
+                <a href="./register.html" class="btn-artisan"><i class="fa-solid fa-briefcase"></i> Join Handi-pro as an Artisan</a>
             </div>
         </div>
     </section>
@@ -84,6 +132,102 @@
                 <i class="fa-solid fa-paint-roller cat-icon"></i>
                 <h3>Painter</h3>
                 <p>Interior, exterior & wall screeding</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pros In Action (Auto-moving Video Slider) -->
+    <section class="pros-in-action" id="pros-in-action">
+        <div class="container">
+            <div class="section-header-centered">
+                <h2>Pros In Action</h2>
+                <p>Real skills, real work — tap a category above to find a pro near you.</p>
+            </div>
+
+            <div class="video-slider-wrapper" id="prosVideoSlider">
+                <button class="video-nav-btn video-prev-btn" id="videoPrevBtn" aria-label="Previous Video">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <div class="video-slider-viewport">
+                    <!-- Video 1: Plumbing -->
+                    <div class="video-slide active" data-category="plumbing">
+                        <video src="videos/plumbing.mp4" playsinline muted loop preload="metadata" poster="Images/icon.jpeg"></video>
+                        <div class="video-play-indicator"></div>
+                        <div class="video-overlay-caption" onclick="filterByCategory('plumbing')">
+                            <div class="video-caption-text">
+                                <h4>Plumbing</h4>
+                                <span><i class="fa-solid fa-arrow-right"></i> Find Plumbing Pros</span>
+                            </div>
+                            <span class="badge verified"><i class="fa-solid fa-circle-check"></i> In Action</span>
+                        </div>
+                    </div>
+
+                    <!-- Video 2: Solar Installation -->
+                    <div class="video-slide" data-category="solar">
+                        <video src="videos/solar-installation.mp4" playsinline muted loop preload="metadata" poster="Images/icon.jpeg"></video>
+                        <div class="video-play-indicator"></div>
+                        <div class="video-overlay-caption" onclick="filterByCategory('solar')">
+                            <div class="video-caption-text">
+                                <h4>Solar Installation</h4>
+                                <span><i class="fa-solid fa-arrow-right"></i> Find Solar Pros</span>
+                            </div>
+                            <span class="badge verified"><i class="fa-solid fa-circle-check"></i> In Action</span>
+                        </div>
+                    </div>
+
+                    <!-- Video 3: Electrical -->
+                    <div class="video-slide" data-category="electrical">
+                        <video src="videos/electrical.mp4" playsinline muted loop preload="metadata" poster="Images/icon.jpeg"></video>
+                        <div class="video-play-indicator"></div>
+                        <div class="video-overlay-caption" onclick="filterByCategory('electrical')">
+                            <div class="video-caption-text">
+                                <h4>Electrical</h4>
+                                <span><i class="fa-solid fa-arrow-right"></i> Find Electrical Pros</span>
+                            </div>
+                            <span class="badge verified"><i class="fa-solid fa-circle-check"></i> In Action</span>
+                        </div>
+                    </div>
+
+                    <!-- Video 4: Carpentry -->
+                    <div class="video-slide" data-category="carpentry">
+                        <video src="videos/carpentry.mp4" playsinline muted loop preload="metadata" poster="Images/icon.jpeg"></video>
+                        <div class="video-play-indicator"></div>
+                        <div class="video-overlay-caption" onclick="filterByCategory('carpentry')">
+                            <div class="video-caption-text">
+                                <h4>Carpentry</h4>
+                                <span><i class="fa-solid fa-arrow-right"></i> Find Carpentry Pros</span>
+                            </div>
+                            <span class="badge verified"><i class="fa-solid fa-circle-check"></i> In Action</span>
+                        </div>
+                    </div>
+
+                    <!-- Video 5: Painting -->
+                    <div class="video-slide" data-category="painting">
+                        <video src="videos/painting.mp4" playsinline muted loop preload="metadata" poster="Images/icon.jpeg"></video>
+                        <div class="video-play-indicator"></div>
+                        <div class="video-overlay-caption" onclick="filterByCategory('painting')">
+                            <div class="video-caption-text">
+                                <h4>Painting</h4>
+                                <span><i class="fa-solid fa-arrow-right"></i> Find Painting Pros</span>
+                            </div>
+                            <span class="badge verified"><i class="fa-solid fa-circle-check"></i> In Action</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="video-nav-btn video-next-btn" id="videoNextBtn" aria-label="Next Video">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <!-- Indicator dots -->
+                <div class="video-dots">
+                    <span class="video-dot active" data-slide-to="0"></span>
+                    <span class="video-dot" data-slide-to="1"></span>
+                    <span class="video-dot" data-slide-to="2"></span>
+                    <span class="video-dot" data-slide-to="3"></span>
+                    <span class="video-dot" data-slide-to="4"></span>
+                </div>
             </div>
         </div>
     </section>
@@ -161,5 +305,3 @@
     <script src="./script.js"></script>
 </body>
 </html>
-
-

@@ -129,9 +129,11 @@ function renderArtisansList(list) {
 
   if (!list || list.length === 0) {
     track.innerHTML = `
-      <div style="padding: 30px; text-align: center; width: 100%; color: #64748b;">
-        <p style="font-size: 1.1rem; margin-bottom: 10px;">No registered artisans found.</p>
-        <button onclick="resetSearch()" class="btn btn-primary" style="margin-top: 8px;">Show All Verified Artisans</button>
+      <div class="state-container empty-state">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>No verified artisans found for this search</h3>
+        <p>Try searching for a broader location (e.g. "Lekki" or "Lagos") or choose a different trade category.</p>
+        <button onclick="resetSearch()" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i> View All Verified Artisans</button>
       </div>
     `;
     return;
@@ -796,4 +798,204 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+});
+
+
+/* ==========================================================================
+   PROS IN ACTION (AUTO-PLAYING VIDEO SLIDER)
+   ========================================================================== */
+function initVideoSlider() {
+  const slider = document.getElementById("prosVideoSlider");
+  if (!slider) return;
+
+  const slides = slider.querySelectorAll(".video-slide");
+  const dots = slider.querySelectorAll(".video-dot");
+  const prevBtn = document.getElementById("videoPrevBtn");
+  const nextBtn = document.getElementById("videoNextBtn");
+  const viewport = slider.querySelector(".video-slider-viewport");
+
+  if (!slides || slides.length === 0) return;
+
+  let currentIndex = 0;
+  let autoPlayTimer = null;
+  let isManuallyPaused = false;
+  let isOffScreen = false;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Preload next video helper
+  function preloadNext(index) {
+    const nextIdx = (index + 1) % slides.length;
+    const nextVideo = slides[nextIdx]?.querySelector("video");
+    if (nextVideo && nextVideo.preload !== "auto") {
+      nextVideo.preload = "auto";
+    }
+  }
+
+  function goToSlide(index) {
+    if (index < 0) index = slides.length - 1;
+    if (index >= slides.length) index = 0;
+
+    // Pause outgoing video
+    const prevSlide = slides[currentIndex];
+    const prevVideo = prevSlide?.querySelector("video");
+    if (prevVideo) {
+      prevVideo.pause();
+    }
+    prevSlide?.classList.remove("active");
+    dots[currentIndex]?.classList.remove("active");
+
+    // Activate new slide
+    currentIndex = index;
+    const currentSlide = slides[currentIndex];
+    const currentVideo = currentSlide?.querySelector("video");
+
+    currentSlide?.classList.add("active");
+    dots[currentIndex]?.classList.add("active");
+
+    preloadNext(currentIndex);
+
+    // Play incoming video if in viewport and not user-paused
+    if (currentVideo && !isManuallyPaused && !isOffScreen) {
+      currentVideo.currentTime = 0;
+      const playPromise = currentVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Auto-play was prevented by browser policy (fallback to mute/pause gracefully)
+        });
+      }
+    }
+
+    resetAutoPlayTimer();
+  }
+
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
+
+  function resetAutoPlayTimer() {
+    clearTimeout(autoPlayTimer);
+    if (prefersReducedMotion || isManuallyPaused || isOffScreen) return;
+
+    // Advance after 10s maximum or video end
+    autoPlayTimer = setTimeout(() => {
+      nextSlide();
+    }, 10000);
+  }
+
+  // Listen for video ended event on each video to advance instantly
+  slides.forEach((slide, idx) => {
+    const video = slide.querySelector("video");
+    if (video) {
+      video.addEventListener("ended", () => {
+        if (currentIndex === idx && !isManuallyPaused && !isOffScreen) {
+          nextSlide();
+        }
+      });
+
+      // Tap video directly to toggle pause/play
+      video.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const indicator = slide.querySelector(".video-play-indicator");
+        if (video.paused) {
+          isManuallyPaused = false;
+          video.play();
+          if (indicator) {
+            indicator.innerHTML = '<i class="fa-solid fa-play"></i>';
+            indicator.classList.add("visible");
+            setTimeout(() => indicator.classList.remove("visible"), 600);
+          }
+          resetAutoPlayTimer();
+        } else {
+          isManuallyPaused = true;
+          video.pause();
+          clearTimeout(autoPlayTimer);
+          if (indicator) {
+            indicator.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            indicator.classList.add("visible");
+            setTimeout(() => indicator.classList.remove("visible"), 600);
+          }
+        }
+      });
+    }
+  });
+
+  // Buttons
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      nextSlide();
+    });
+  }
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      prevSlide();
+    });
+  }
+
+  // Dots
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const idx = parseInt(dot.getAttribute("data-slide-to"), 10);
+      if (!isNaN(idx)) goToSlide(idx);
+    });
+  });
+
+  // Touch Swipe on mobile
+  if (viewport) {
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    viewport.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    viewport.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }
+  }
+
+  // IntersectionObserver to pause when off-screen and resume when on-screen
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const currentVideo = slides[currentIndex]?.querySelector("video");
+        if (entry.isIntersecting) {
+          isOffScreen = false;
+          if (currentVideo && !isManuallyPaused) {
+            currentVideo.play().catch(() => {});
+            resetAutoPlayTimer();
+          }
+        } else {
+          isOffScreen = true;
+          if (currentVideo) currentVideo.pause();
+          clearTimeout(autoPlayTimer);
+        }
+      });
+    }, { threshold: 0.35 });
+
+    observer.observe(slider);
+  }
+
+  // Start with first slide
+  goToSlide(0);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initVideoSlider();
 });
