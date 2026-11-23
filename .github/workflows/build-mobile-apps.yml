@@ -42,6 +42,10 @@ jobs:
           node generate-assets.js
           npx cap sync android
 
+      - name: Make Gradlew Executable
+        working-directory: ./app/android
+        run: chmod +x ./gradlew
+
       - name: Build Android Release / Debug APK
         working-directory: ./app/android
         run: ./gradlew assembleDebug
