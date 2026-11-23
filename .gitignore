@@ -1,0 +1,34 @@
+# Node modules and build output
+node_modules/
+dist/
+build/
+.cache/
+
+# Environment files and credentials
+.env
+.env.local
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Android build outputs & local config
+app/android/.gradle/
+app/android/build/
+app/android/app/build/
+app/android/local.properties
+app/android/.idea/
+app/android/*.iml
+app/android/app/*.iml
+
+# iOS build outputs & local config
+app/ios/App/build/
+app/ios/App/Pods/
+app/ios/App/.symlinks/
+app/ios/App/*.xcworkspace/xcuserdata/
+app/ios/App/*.xcodeproj/xcuserdata/
+app/ios/App/*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Node dependencies in app folder
+app/node_modules/

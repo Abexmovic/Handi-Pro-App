@@ -1,0 +1,31 @@
+{
+  "appId": "com.handipro.app",
+  "appName": "Handi-pro",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "launchAutoHide": true,
+      "backgroundColor": "#0f172a",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "splashFullScreen": true,
+      "splashImmersive": true
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#0f172a"
+    }
+  },
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": [
+      "*.supabase.co",
+      "*.whatsapp.com",
+      "wa.me",
+      "cdnjs.cloudflare.com",
+      "cdn.jsdelivr.net"
+    ]
+  }
+}
